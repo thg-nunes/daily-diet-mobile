@@ -1,5 +1,6 @@
-import { ArrowLeft, ArrowUpRight } from 'phosphor-react-native'
+import { TouchableOpacity } from 'react-native'
 import styled, { css } from 'styled-components/native'
+import { ArrowLeft, ArrowUpRight } from 'phosphor-react-native'
 
 export type PercentType = 'PRIMARY' | 'SECONDARY'
 
@@ -30,21 +31,25 @@ export const TextContainer = styled.View`
   align-items: center;
 `
 
-export const ArrowUpRightIcon = styled(ArrowUpRight).attrs(() => ({
-  size: 24
-}))`
+export const ButtonRightIconContainer = styled(TouchableOpacity)`
   position: absolute;
   top: 8px;
   right: 8px;
 `
 
-export const ArrowLeftIcon = styled(ArrowLeft).attrs<ContainerProps>(() => ({
+export const ArrowUpRightIcon = styled(ArrowUpRight).attrs(() => ({
   size: 24
-}))`
+}))``
+
+export const ButtonLeftIconContainer = styled(TouchableOpacity)`
   position: absolute;
   top: 8px;
   left: 8px;
 `
+
+export const ArrowLeftIcon = styled(ArrowLeft).attrs<ContainerProps>(() => ({
+  size: 24
+}))``
 
 export const PercentValue = styled.Text`
   ${({ theme }) => css`

@@ -26,7 +26,6 @@ export const MealName = styled.Text`
     flex: 1;
 
     padding: 0 12px;
-    overflow-x: ;
 
     color: ${theme.colors.gray[700]};
     font-size: ${theme.font_size.lg}px;
