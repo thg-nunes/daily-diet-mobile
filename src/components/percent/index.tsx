@@ -1,4 +1,6 @@
 import { useTheme } from 'styled-components/native'
+import { useNavigation } from '@react-navigation/native'
+
 import * as Styled from './styled'
 
 type PercentProps = {
@@ -13,13 +15,24 @@ export const Percent = ({
   percentDescription = ''
 }: PercentProps) => {
   const { colors } = useTheme()
+  const { navigate } = useNavigation()
+
+  function handleHome(): void {
+    navigate('Home')
+  }
+
+  function handleStatistics(): void {
+    navigate('Statistics')
+  }
 
   return (
     <Styled.Container type={percentValue > 50 ? 'PRIMARY' : 'SECONDARY'}>
       {type === 'SECONDARY' && (
-        <Styled.ArrowLeftIcon
-          color={percentValue > 50 ? colors.green[900] : colors.red[900]}
-        />
+        <Styled.ButtonLeftIconContainer onPress={handleHome}>
+          <Styled.ArrowLeftIcon
+            color={percentValue > 50 ? colors.green[900] : colors.red[900]}
+          />
+        </Styled.ButtonLeftIconContainer>
       )}
       <Styled.TextContainer>
         <Styled.PercentValue>{percentValue}%</Styled.PercentValue>
@@ -28,9 +41,11 @@ export const Percent = ({
         </Styled.PercentDescription>
       </Styled.TextContainer>
       {type === 'PRIMARY' && (
-        <Styled.ArrowUpRightIcon
-          color={percentValue > 50 ? colors.green[900] : colors.red[900]}
-        />
+        <Styled.ButtonRightIconContainer onPress={handleStatistics}>
+          <Styled.ArrowUpRightIcon
+            color={percentValue > 50 ? colors.green[900] : colors.red[900]}
+          />
+        </Styled.ButtonRightIconContainer>
       )}
     </Styled.Container>
   )
