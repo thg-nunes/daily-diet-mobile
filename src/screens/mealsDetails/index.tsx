@@ -1,5 +1,6 @@
-import { Circle, PencilSimpleLine, Trash } from 'phosphor-react-native'
+import { useState } from 'react'
 import { useTheme } from 'styled-components/native'
+import { Circle, PencilSimpleLine, Trash } from 'phosphor-react-native'
 
 import { Button } from '@components/button'
 import { GoBackHeader } from '@components/goBackHeader'
@@ -23,9 +24,36 @@ export const MealsDetails = ({
   dateAndHourDescription
 }: MealsDetailsProps) => {
   const { colors } = useTheme()
+  const [modalIsVisible, setModalIsVisible] = useState(false)
+
+  function handleOpenModal() {
+    setModalIsVisible(true)
+  }
+
+  function handleCloseModal() {
+    setModalIsVisible(false)
+  }
 
   return (
     <Styled.Container mealOnDiet={mealOnDiet}>
+      <Styled.Modal visible={modalIsVisible} transparent>
+        <Styled.ModalBackground>
+          <Styled.ModalContent>
+            <Styled.ModalText>
+              Deseja realmente excluir o registro da refeição?
+            </Styled.ModalText>
+
+            <Styled.ModalButtons>
+              <Button
+                text="Cancelar"
+                type="SECONDARY"
+                onPress={handleCloseModal}
+              />
+              <Button text="Sim, excluir" />
+            </Styled.ModalButtons>
+          </Styled.ModalContent>
+        </Styled.ModalBackground>
+      </Styled.Modal>
       <GoBackHeader headerText="Refeição" />
       <Styled.Content>
         <Styled.Meal>
@@ -63,6 +91,7 @@ export const MealsDetails = ({
         <Button
           text="Excluir refeição"
           type="SECONDARY"
+          onPress={handleOpenModal}
           image={<Trash size={18} color={colors.gray[800]} />}
         />
       </Styled.Content>
