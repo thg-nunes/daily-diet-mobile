@@ -1,9 +1,16 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Home } from '@screens/home'
+import { Create } from '@screens/create'
 import { Statistics } from '@screens/statistics'
 
-const { Navigator, Screen } = createNativeStackNavigator()
+export type Routes = {
+  Home: undefined
+  New: undefined
+  Statistics: undefined
+}
+
+const { Navigator, Screen } = createNativeStackNavigator<Routes>()
 
 export function AppRoutes(): JSX.Element {
   return (
@@ -13,6 +20,7 @@ export function AppRoutes(): JSX.Element {
       }}
     >
       <Screen name="Home" component={Home} />
+      <Screen name="New" component={Create} />
       <Screen name="Statistics" component={Statistics} />
     </Navigator>
   )
