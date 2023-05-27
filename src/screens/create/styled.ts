@@ -24,22 +24,42 @@ export const Content = styled.View`
 `
 
 export const PressableContainer = styled(Pressable)`
-  ${({ theme }) => css`
-    flex: 1;
-  `}
+  flex: 1;
 `
 
 export const MealDateAndHourInfo = styled.View`
-  ${({ theme }) => css`
-    gap: 20px;
-    flex-direction: row;
-  `}
+  gap: 20px;
+  flex-direction: row;
 `
 
 export const MealChangeStateButton = styled.View`
+  flex: 1;
+  gap: 8px;
+  flex-direction: row;
+`
+
+export const ButtonContainer = styled.View`
+  flex: 1;
+  margin-top: 150px;
+`
+
+export const Scroll = styled.ScrollView`
   ${({ theme }) => css`
-    flex: 1;
-    gap: 8px;
-    flex-direction: row;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    background: ${theme.colors.gray[100]};
+  `}
+`
+
+export const OnDietButtonsSection = styled.View`
+  gap: 8px;
+`
+
+export const OnDietButtonsSectionHeader = styled.Text`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray[700]};
+    font-size: ${theme.font_size.md}px;
+    font-family: ${theme.font_familly.bold};
   `}
 `
