@@ -92,3 +92,46 @@ export const MealInsideDietText = styled.Text`
     font-size: ${theme.font_size.md}px;
   `}
 `
+
+export const Modal = styled.Modal`
+  ${({ theme }) => css`
+    flex: 1;
+  `}
+`
+
+export const ModalBackground = styled.View`
+  ${({ theme }) => css`
+    flex: 1;
+
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25);
+  `}
+`
+
+export const ModalText = styled(MealName)`
+  ${({ theme }) => css`
+    text-align: center;
+  `}
+`
+
+export const ModalContent = styled.View`
+  ${({ theme }) => css`
+    width: 327px;
+    height: 192px;
+
+    gap: 32px;
+    padding: 40px 24px;
+
+    background: ${theme.colors.gray[100]};
+    border-radius: 8px;
+  `}
+`
+
+export const ModalButtons = styled.View`
+  ${({ theme }) => css`
+    gap: 12px;
+    flex-direction: row;
+    justify-content: space-between;
+  `}
+`
