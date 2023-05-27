@@ -15,7 +15,7 @@ export const Button = ({
   ...rest
 }: ButtonProps) => {
   return (
-    <Styled.Container type={type} {...rest}>
+    <Styled.Container type={type} activeOpacity={0.9} {...rest}>
       {image}
       <Styled.ButtonText type={type}>{text}</Styled.ButtonText>
     </Styled.Container>
