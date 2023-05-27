@@ -8,6 +8,8 @@ import Logo from '@assets/logo/Logo.png'
 import { Button } from '@components/button'
 import { Percent } from '@components/percent'
 import { MealInfo } from '@components/mealInfo'
+import { Plus } from 'phosphor-react-native'
+import { useTheme } from 'styled-components'
 
 export const Home = () => {
   const mealByDate = [
@@ -42,6 +44,7 @@ export const Home = () => {
       ]
     }
   ]
+  const { colors } = useTheme()
 
   return (
     <Styled.Container>
@@ -57,7 +60,10 @@ export const Home = () => {
 
       <Styled.NewMealSection>
         <Styled.NewMealSectionHeader>Refeições</Styled.NewMealSectionHeader>
-        <Button text="Nova refeição" type="ADD" />
+        <Button
+          text="Nova refeição"
+          image={<Plus size={18} color={colors.gray[100]} />}
+        />
       </Styled.NewMealSection>
 
       <SectionList
