@@ -73,6 +73,7 @@ export const DateAndHourDescription = styled.Text`
 export const MealInsideDietContainer = styled.View`
   ${({ theme }) => css`
     width: 144px;
+    margin-bottom: 250px;
 
     gap: 8px;
     align-items: center;

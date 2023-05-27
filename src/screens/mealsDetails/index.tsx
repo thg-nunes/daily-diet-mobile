@@ -1,6 +1,7 @@
-import { Circle } from 'phosphor-react-native'
+import { Circle, PencilSimpleLine, Trash } from 'phosphor-react-native'
 import { useTheme } from 'styled-components/native'
 
+import { Button } from '@components/button'
 import { GoBackHeader } from '@components/goBackHeader'
 
 import * as Styled from './styled'
@@ -48,6 +49,22 @@ export const MealsDetails = ({
             {mealOnDiet ? 'dentro da dieta' : 'fora da dieta'}
           </Styled.MealInsideDietText>
         </Styled.MealInsideDietContainer>
+
+        <Button
+          text="Editar refeição"
+          image={
+            <PencilSimpleLine
+              size={18}
+              color={colors.gray[100]}
+              weight="thin"
+            />
+          }
+        />
+        <Button
+          text="Excluir refeição"
+          type="SECONDARY"
+          image={<Trash size={18} color={colors.gray[800]} />}
+        />
       </Styled.Content>
     </Styled.Container>
   )
