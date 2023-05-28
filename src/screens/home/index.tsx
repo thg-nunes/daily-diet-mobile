@@ -1,6 +1,9 @@
+import { Plus } from 'phosphor-react-native'
 import { Image, SectionList } from 'react-native'
 
 import * as Styled from './styled'
+
+import { useRenderInitialData } from '@hooks/screens/home'
 
 import User from '@assets/user/userIcon.png'
 import Logo from '@assets/logo/Logo.png'
@@ -8,43 +11,9 @@ import Logo from '@assets/logo/Logo.png'
 import { Button } from '@components/button'
 import { Percent } from '@components/percent'
 import { MealInfo } from '@components/mealInfo'
-import { Plus } from 'phosphor-react-native'
-import { useTheme } from 'styled-components'
 
 export const Home = () => {
-  const mealByDate = [
-    {
-      sectionDate: '12.08.22',
-      data: [
-        {
-          hour: '20:00',
-          mealName: 'X-tudo',
-          onDiet: true
-        },
-        {
-          hour: '16:00',
-          mealName: 'Whey protein com leite',
-          onDiet: false
-        }
-      ]
-    },
-    {
-      sectionDate: '11.08.22',
-      data: [
-        {
-          hour: '20:00',
-          mealName: 'Salada cesar com frango grelhado',
-          onDiet: true
-        },
-        {
-          hour: '16:00',
-          mealName: 'Vitamina de banana com abacate',
-          onDiet: false
-        }
-      ]
-    }
-  ]
-  const { colors } = useTheme()
+  const { colors, allMeals, handleNewMeal } = useRenderInitialData()
 
   return (
     <Styled.Container>
@@ -62,12 +31,13 @@ export const Home = () => {
         <Styled.NewMealSectionHeader>Refeições</Styled.NewMealSectionHeader>
         <Button
           text="Nova refeição"
+          onPress={handleNewMeal}
           image={<Plus size={18} color={colors.gray[100]} />}
         />
       </Styled.NewMealSection>
 
       <SectionList
-        sections={mealByDate}
+        sections={allMeals}
         keyExtractor={(item) => item.mealName}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ gap: 8 }}
@@ -75,7 +45,7 @@ export const Home = () => {
           <MealInfo
             hour={item.hour}
             mealName={item.mealName}
-            mealOnTheDiet={item.onDiet}
+            mealOnTheDiet={item.mealsOnDiet}
           />
         )}
         renderSectionHeader={({ section: { sectionDate } }) => (

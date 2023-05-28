@@ -15,6 +15,7 @@ export const Header = styled.View`
 `
 
 export const NewMealSection = styled.View`
+  flex: 1;
   gap: 8px;
   margin: 32px 0;
 `
