@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCreateAnNewMeal } from '@hooks/screens/create'
 
 import { Input } from '@components/input'
 import { Clock } from '@components/clock'
@@ -10,27 +10,28 @@ import { OnDietButton } from '@components/onDietButton'
 import * as Styled from './styled'
 
 export const Create = () => {
-  const [selectedDate, setSelectedDate] = useState('')
-  const [selectedHour, setSelectedHour] = useState('')
-  const [calendarIsOpen, setCalendarIsOpen] = useState(false)
-  const [clockIsOpen, setClockIsOpen] = useState(false)
+  const { ...createMeal } = useCreateAnNewMeal()
 
-  const [mealOnDiet, setMealOnDiet] = useState<boolean | undefined>(undefined)
-  const [mealOutDiet, setMealOutDiet] = useState<boolean | undefined>(undefined)
+  function handleGoBack(): void {
+    createMeal.goBack()
+  }
 
   return (
     <Styled.Container>
-      <GoBackHeader headerText="Nova refeição" />
-      {calendarIsOpen && (
+      <GoBackHeader
+        headerText="Nova refeição"
+        touchableButton={{ onPress: handleGoBack }}
+      />
+      {createMeal.calendarIsOpen && (
         <Calendar
-          setCalendarIsOpen={setCalendarIsOpen}
-          setSelectedDate={setSelectedDate}
+          setCalendarIsOpen={createMeal.setCalendarIsOpen}
+          setSelectedDate={createMeal.setSelectedDate}
         />
       )}
-      {clockIsOpen && (
+      {createMeal.clockIsOpen && (
         <Clock
-          setClockIsOpen={setClockIsOpen}
-          setSelectedHour={setSelectedHour}
+          setClockIsOpen={createMeal.setClockIsOpen}
+          setSelectedHour={createMeal.setSelectedHour}
         />
       )}
       <Styled.Scroll showsVerticalScrollIndicator={false}>
@@ -38,17 +39,21 @@ export const Create = () => {
           <Input
             inputLabel="Nome"
             inputProps={{
-              maxLength: 50
+              value: createMeal.mealName,
+              maxLength: 50,
+              onChangeText: createMeal.setMealName
             }}
           />
           <Input
             inputLabel="Descrição"
             isMultiline
             inputProps={{
+              value: createMeal.mealDescription,
               multiline: true,
               numberOfLines: 4,
               textAlignVertical: 'top',
               maxLength: 100,
+              onChangeText: createMeal.setMealDescription,
               style: {
                 height: 120,
                 maxHeight: 120
@@ -57,31 +62,35 @@ export const Create = () => {
           />
 
           <Styled.MealDateAndHourInfo>
-            <Styled.PressableContainer onPress={() => setCalendarIsOpen(true)}>
+            <Styled.PressableContainer
+              onPress={() => createMeal.setCalendarIsOpen(true)}
+            >
               <Input
                 inputLabel="Data"
                 inputProps={{
-                  value: selectedDate,
+                  value: createMeal.selectedDate,
                   editable: false,
                   onChangeText: () => {
-                    setSelectedDate('')
-                    setCalendarIsOpen(true)
+                    createMeal.setSelectedDate('')
+                    createMeal.setCalendarIsOpen(true)
                   },
-                  onFocus: () => setCalendarIsOpen(true)
+                  onFocus: () => createMeal.setCalendarIsOpen(true)
                 }}
               />
             </Styled.PressableContainer>
-            <Styled.PressableContainer onPress={() => setClockIsOpen(true)}>
+            <Styled.PressableContainer
+              onPress={() => createMeal.setClockIsOpen(true)}
+            >
               <Input
                 inputLabel="Hora"
                 inputProps={{
-                  value: selectedHour,
+                  value: createMeal.selectedHour,
                   editable: false,
                   onChangeText: () => {
-                    setSelectedHour('')
-                    setClockIsOpen(true)
+                    createMeal.setSelectedHour('')
+                    createMeal.setClockIsOpen(true)
                   },
-                  onFocus: () => setClockIsOpen(true)
+                  onFocus: () => createMeal.setClockIsOpen(true)
                 }}
               />
             </Styled.PressableContainer>
@@ -95,26 +104,29 @@ export const Create = () => {
               <OnDietButton
                 text="Sim"
                 buttonType="PRIMARY"
-                onDiet={mealOnDiet}
+                onDiet={createMeal.mealOnDiet}
                 onPress={() => {
-                  setMealOnDiet(true)
-                  setMealOutDiet(undefined)
+                  createMeal.setMealOnDiet(true)
+                  createMeal.setMealOutDiet(undefined)
                 }}
               />
               <OnDietButton
                 text="Não"
                 buttonType="SECONDARY"
-                onDiet={mealOutDiet}
+                onDiet={createMeal.mealOutDiet}
                 onPress={() => {
-                  setMealOutDiet(true)
-                  setMealOnDiet(undefined)
+                  createMeal.setMealOutDiet(true)
+                  createMeal.setMealOnDiet(undefined)
                 }}
               />
             </Styled.MealChangeStateButton>
           </Styled.OnDietButtonsSection>
 
           <Styled.ButtonContainer>
-            <Button text="Cadastrar refeição" />
+            <Button
+              text="Cadastrar refeição"
+              onPress={createMeal.handleNewMeal}
+            />
           </Styled.ButtonContainer>
         </Styled.Content>
       </Styled.Scroll>
