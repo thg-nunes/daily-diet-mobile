@@ -6,6 +6,8 @@
     "paths": {
       "@screens/*": ["./src/screens/*"],
       "@assets/*": ["./src/assets/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@errors/*": ["./src/errors/*"],
       "@components/*": ["./src/components/*"]
     },
     "exclude": ["node_modules"]
