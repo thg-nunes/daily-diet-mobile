@@ -18,6 +18,9 @@ export const NewMealSection = styled.View`
   flex: 1;
   gap: 8px;
   margin: 32px 0;
+
+  min-height: 79px;
+  max-height: 79px;
 `
 
 export const NewMealSectionHeader = styled.Text`
