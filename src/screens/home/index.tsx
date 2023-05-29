@@ -3,7 +3,10 @@ import { Image, SectionList } from 'react-native'
 
 import * as Styled from './styled'
 
-import { useRenderInitialData } from '@hooks/screens/home'
+import {
+  useMealsOfDietPercent,
+  useRenderInitialData
+} from '@hooks/screens/home'
 
 import User from '@assets/user/userIcon.png'
 import Logo from '@assets/logo/Logo.png'
@@ -14,6 +17,7 @@ import { MealInfo } from '@components/mealInfo'
 
 export const Home = () => {
   const { colors, allMeals, handleNewMeal } = useRenderInitialData()
+  const mealsOfDietPercent = useMealsOfDietPercent(allMeals)
 
   return (
     <Styled.Container>
@@ -23,7 +27,7 @@ export const Home = () => {
       </Styled.Header>
 
       <Percent
-        percentValue={32}
+        percentValue={mealsOfDietPercent}
         percentDescription="das refeições dentro da dieta"
       />
 

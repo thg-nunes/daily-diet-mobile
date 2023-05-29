@@ -35,7 +35,7 @@ export const Percent = ({
         </Styled.ButtonLeftIconContainer>
       )}
       <Styled.TextContainer>
-        <Styled.PercentValue>{percentValue}%</Styled.PercentValue>
+        <Styled.PercentValue>{percentValue.toFixed(2)}%</Styled.PercentValue>
         <Styled.PercentDescription>
           {percentDescription}
         </Styled.PercentDescription>
