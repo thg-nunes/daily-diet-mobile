@@ -23,13 +23,25 @@ const addMealOnList = async (mealData: Meal) => {
     let allSavedMeals = await getAllMeals()
 
     if (allSavedMeals.length > 0) {
-      allSavedMeals.forEach((savedMeal) => {
-        if (savedMeal.sectionDate === mealData.date) {
-          savedMeal.data = addNewMealInSectionData(savedMeal, mealData)
-        } else {
-          allSavedMeals = addNewSectionInList(allSavedMeals, mealData)
-        }
-      })
+      const setctionDateAlreadyExists = allSavedMeals.find(
+        (savedMeal) => savedMeal.sectionDate === mealData.date
+      )
+
+      const otherMeals = allSavedMeals.filter(
+        (savedMeal) => savedMeal.sectionDate !== mealData.date
+      )
+
+      if (setctionDateAlreadyExists) {
+        setctionDateAlreadyExists.data.push({
+          hour: mealData.hour,
+          mealName: mealData.mealName,
+          description: mealData.description,
+          mealsOnDiet: mealData.mealIsOnDiet
+        })
+        allSavedMeals = [...otherMeals, setctionDateAlreadyExists]
+      } else {
+        allSavedMeals = addNewMealInSectionData(mealData, allSavedMeals)
+      }
 
       const dataToStorage = JSON.stringify(allSavedMeals)
 
