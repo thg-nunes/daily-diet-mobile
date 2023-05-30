@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components/native'
 
-export type FeedbackType = 'GOOD' | 'BAD'
+export type FeedbackType = boolean
 
 type ContainerProps = {
-  type: FeedbackType
+  mealOnDiet: FeedbackType
 }
 
 export const Feedback = styled.View`
@@ -14,8 +14,8 @@ export const Feedback = styled.View`
 `
 
 export const FeedbackHeader = styled.Text<ContainerProps>`
-  ${({ theme, type }) => css`
-    color: ${type === 'GOOD' ? theme.colors.green[900] : theme.colors.red[900]};
+  ${({ theme, mealOnDiet }) => css`
+    color: ${mealOnDiet ? theme.colors.green[900] : theme.colors.red[900]};
     font-size: ${theme.font_size['2xl']}px;
     font-family: ${theme.font_familly.bold};
   `}

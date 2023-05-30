@@ -3,16 +3,16 @@ import { Text, View } from 'react-native'
 import * as Styled from './styled'
 
 type FeedbackHeaderProps = {
-  type: Styled.FeedbackType
+  mealOnDiet: Styled.FeedbackType
 }
 
-export const FeedbackHeader = ({ type = 'GOOD' }: FeedbackHeaderProps) => {
+export const FeedbackHeader = ({ mealOnDiet }: FeedbackHeaderProps) => {
   return (
     <View>
-      {type === 'GOOD' ? (
+      {mealOnDiet ? (
         <>
           <Styled.Feedback>
-            <Styled.FeedbackHeader type={type}>
+            <Styled.FeedbackHeader mealOnDiet={mealOnDiet}>
               Continue assim!
             </Styled.FeedbackHeader>
             <Styled.FeedbackDescriptionContainer>
@@ -25,7 +25,9 @@ export const FeedbackHeader = ({ type = 'GOOD' }: FeedbackHeaderProps) => {
       ) : (
         <>
           <Styled.Feedback>
-            <Styled.FeedbackHeader type={type}>Que pena!</Styled.FeedbackHeader>
+            <Styled.FeedbackHeader mealOnDiet={mealOnDiet}>
+              Que pena!
+            </Styled.FeedbackHeader>
             <Styled.FeedbackDescriptionContainer>
               <Text>Você </Text>
               <Text style={{ fontWeight: '800' }}>saiu da dieta </Text>
