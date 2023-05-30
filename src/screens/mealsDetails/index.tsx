@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTheme } from 'styled-components/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { Circle, PencilSimpleLine, Trash } from 'phosphor-react-native'
 
 import { Button } from '@components/button'
@@ -7,7 +8,7 @@ import { GoBackHeader } from '@components/goBackHeader'
 
 import * as Styled from './styled'
 
-type MealsDetailsProps = {
+export type MealsDetailsProps = {
   mealOnDiet: boolean
   mealName: string
   mealDescription: string
@@ -17,13 +18,12 @@ type MealsDetailsProps = {
   }
 }
 
-export const MealsDetails = ({
-  mealOnDiet,
-  mealName = '',
-  mealDescription = '',
-  dateAndHourDescription
-}: MealsDetailsProps) => {
+export const MealsDetails = () => {
   const { colors } = useTheme()
+  const { params } = useRoute()
+  const { navigate } = useNavigation()
+  const { dateAndHourDescription, mealDescription, mealName, mealOnDiet } =
+    params as MealsDetailsProps
   const [modalIsVisible, setModalIsVisible] = useState(false)
 
   function handleOpenModal() {
@@ -32,6 +32,20 @@ export const MealsDetails = ({
 
   function handleCloseModal() {
     setModalIsVisible(false)
+  }
+
+  function handleHomeScreen() {
+    navigate('Home')
+  }
+
+  function handleMealEdite() {
+    navigate('EditeMeal', {
+      mealName,
+      mealIsOnDiet: mealOnDiet,
+      description: mealDescription,
+      date: dateAndHourDescription.date,
+      hour: dateAndHourDescription.hour
+    })
   }
 
   return (
@@ -54,7 +68,12 @@ export const MealsDetails = ({
           </Styled.ModalContent>
         </Styled.ModalBackground>
       </Styled.Modal>
-      <GoBackHeader headerText="Refeição" />
+      <GoBackHeader
+        headerText="Refeição"
+        touchableButton={{
+          onPress: handleHomeScreen
+        }}
+      />
       <Styled.Content>
         <Styled.Meal>
           <Styled.MealName>{mealName}</Styled.MealName>
@@ -87,6 +106,7 @@ export const MealsDetails = ({
               weight="thin"
             />
           }
+          onPress={handleMealEdite}
         />
         <Button
           text="Excluir refeição"

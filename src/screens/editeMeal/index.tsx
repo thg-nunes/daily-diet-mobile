@@ -1,4 +1,11 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute
+} from '@react-navigation/native'
+
+import { Meal } from '@utils/storage/meal/types'
 
 import { Input } from '@components/input'
 import { Clock } from '@components/clock'
@@ -9,9 +16,14 @@ import { OnDietButton } from '@components/onDietButton'
 
 import * as Styled from './styled'
 
-type EditeMealProps = {}
+export const EditeMeal = () => {
+  const { goBack } = useNavigation()
 
-export const EditeMeal = ({}: EditeMealProps) => {
+  const { params } = useRoute()
+  const data = params as Meal
+
+  const [mealName, setMealName] = useState('')
+  const [mealDescription, setMealDescription] = useState('')
   const [selectedDate, setSelectedDate] = useState('')
   const [selectedHour, setSelectedHour] = useState('')
   const [calendarIsOpen, setCalendarIsOpen] = useState(false)
@@ -20,9 +32,26 @@ export const EditeMeal = ({}: EditeMealProps) => {
   const [mealOnDiet, setMealOnDiet] = useState<boolean | undefined>(undefined)
   const [mealOutDiet, setMealOutDiet] = useState<boolean | undefined>(undefined)
 
+  function handleHomeScreen() {
+    goBack()
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      data.mealIsOnDiet
+        ? setMealOnDiet(data.mealIsOnDiet)
+        : setMealOutDiet(true)
+    }, [data])
+  )
+
   return (
     <Styled.Container>
-      <GoBackHeader headerText="Editar refeição" />
+      <GoBackHeader
+        headerText="Editar refeição"
+        touchableButton={{
+          onPress: handleHomeScreen
+        }}
+      />
       {calendarIsOpen && (
         <Calendar
           setCalendarIsOpen={setCalendarIsOpen}
@@ -40,7 +69,9 @@ export const EditeMeal = ({}: EditeMealProps) => {
         <Input
           inputLabel="Nome"
           inputProps={{
-            maxLength: 50
+            maxLength: 50,
+            onChangeText: setMealName,
+            value: mealName ? mealName : data.mealName
           }}
         />
         <Input
@@ -49,6 +80,8 @@ export const EditeMeal = ({}: EditeMealProps) => {
           inputProps={{
             multiline: true,
             numberOfLines: 4,
+            onChangeText: setMealDescription,
+            value: mealDescription ? mealDescription : data.description,
             textAlignVertical: 'top',
             maxLength: 100
           }}
@@ -59,12 +92,9 @@ export const EditeMeal = ({}: EditeMealProps) => {
             <Input
               inputLabel="Data"
               inputProps={{
-                value: selectedDate,
+                value: selectedDate ? selectedDate : data.date,
                 editable: false,
-                onChangeText: () => {
-                  setSelectedDate('')
-                  setCalendarIsOpen(true)
-                },
+                onChangeText: () => setCalendarIsOpen(true),
                 onFocus: () => setCalendarIsOpen(true)
               }}
             />
@@ -73,12 +103,9 @@ export const EditeMeal = ({}: EditeMealProps) => {
             <Input
               inputLabel="Hora"
               inputProps={{
-                value: selectedHour,
+                value: selectedHour ? selectedHour : data.hour,
                 editable: false,
-                onChangeText: () => {
-                  setSelectedHour('')
-                  setClockIsOpen(true)
-                },
+                onChangeText: () => setClockIsOpen(true),
                 onFocus: () => setClockIsOpen(true)
               }}
             />
