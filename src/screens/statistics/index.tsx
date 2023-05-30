@@ -1,27 +1,26 @@
-import { Percent } from '@components/percent'
 import { useRoute } from '@react-navigation/native'
 
-import * as Styled from './styled'
+import { UseMealsOfDietPercentResponse } from '@hooks/screens/home'
+
+import { Percent } from '@components/percent'
 import { MealsStatistic } from '@components/mealsStatistic'
 import { MealsStatusStatistic } from '@components/mealsStatusStatistic'
 
-type StatisticsProps = {}
+import * as Styled from './styled'
 
-type Params = {
-  percentValue: number
-}
-
-export const Statistics = ({}: StatisticsProps) => {
-  // const { params } = useRoute()
-  // const { percentValue } = params as Params
-  const percentValue = 30
+export const Statistics = () => {
+  const { params } = useRoute()
+  const { ...data } = params as UseMealsOfDietPercentResponse
+  const sequenceOfDishesWithinTheDiet = Math.max(
+    ...data.listOfDishesWithinTheDiet
+  )
 
   return (
-    <Styled.Container percentValue={percentValue}>
+    <Styled.Container percentValue={data._mealsOfDietPercent}>
       <Styled.PercentContainer>
         <Percent
           type="SECONDARY"
-          percentValue={percentValue}
+          percentValue={data._mealsOfDietPercent}
           percentDescription="das refeições dentro da dieta"
         />
       </Styled.PercentContainer>
@@ -29,21 +28,21 @@ export const Statistics = ({}: StatisticsProps) => {
       <Styled.Content>
         <Styled.ContentHeader>Estatísticas gerais</Styled.ContentHeader>
         <MealsStatistic
-          mealsQuantity={22}
+          mealsQuantity={sequenceOfDishesWithinTheDiet}
           mealsQuantityDescription="melhor sequência de pratos dentro da dieta"
         />
         <MealsStatistic
-          mealsQuantity={109}
+          mealsQuantity={data.storageMealsQuantity}
           mealsQuantityDescription="refeições registradas"
         />
         <Styled.MealsStatusContainer>
           <MealsStatusStatistic
-            mealsQuantity={99}
+            mealsQuantity={data.onDietMeals}
             mealsQuantityDescription="refeições dentro da dieta"
           />
           <MealsStatusStatistic
             type="FAIL"
-            mealsQuantity={10}
+            mealsQuantity={data.offDietMeals}
             mealsQuantityDescription="refeições fora da dieta"
           />
         </Styled.MealsStatusContainer>

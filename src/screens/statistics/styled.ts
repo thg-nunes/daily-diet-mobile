@@ -8,7 +8,7 @@ type ContainerProps = {
 export const Container = styled(SafeAreaView)<ContainerProps>`
   ${({ theme, percentValue }) => css`
     flex: 1;
-    background: ${percentValue > 50
+    background: ${percentValue >= 50
       ? theme.colors.green[50]
       : theme.colors.red[50]};
   `}
