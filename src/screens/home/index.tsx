@@ -17,7 +17,7 @@ import { MealInfo } from '@components/mealInfo'
 
 export const Home = () => {
   const { colors, allMeals, handleNewMeal } = useRenderInitialData()
-  const mealsOfDietPercent = useMealsOfDietPercent(allMeals)
+  const { ...data } = useMealsOfDietPercent(allMeals)
 
   return (
     <Styled.Container>
@@ -27,7 +27,8 @@ export const Home = () => {
       </Styled.Header>
 
       <Percent
-        percentValue={mealsOfDietPercent}
+        statisticsParams={data}
+        percentValue={data._mealsOfDietPercent}
         percentDescription="das refeições dentro da dieta"
       />
 
