@@ -6,7 +6,7 @@ import { AppError } from '@errors/AppError'
 import { addMealOnList } from '@utils/storage/meal/add'
 
 const useCreateAnNewMeal = () => {
-  const { goBack } = useNavigation()
+  const { goBack, navigate } = useNavigation()
   const [selectedDate, setSelectedDate] = useState('')
   const [selectedHour, setSelectedHour] = useState('')
 
@@ -45,6 +45,8 @@ const useCreateAnNewMeal = () => {
         mealIsOnDiet: !!mealOnDiet,
         mealName
       })
+
+      navigate('FeedBack', { mealOnDiet: !!mealOnDiet })
     } catch (error) {
       if (error instanceof AppError) {
         Alert.alert('Error ao cadastrar refeição', error.message)
