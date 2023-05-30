@@ -1,9 +1,10 @@
 import { useTheme } from 'styled-components'
+import { PressableProps } from 'react-native'
 import { Circle } from 'phosphor-react-native'
 
 import * as Styled from './styled'
 
-type MealInfoProps = {
+type MealInfoProps = PressableProps & {
   hour: string
   mealName: string
   mealOnTheDiet: boolean
@@ -12,7 +13,8 @@ type MealInfoProps = {
 export const MealInfo = ({
   hour = '',
   mealName = '',
-  mealOnTheDiet = true
+  mealOnTheDiet = true,
+  ...rest
 }: MealInfoProps) => {
   const { colors } = useTheme()
 
@@ -25,7 +27,7 @@ export const MealInfo = ({
   }
 
   return (
-    <Styled.Container mealOnTheDiet={mealOnTheDiet}>
+    <Styled.Container mealOnTheDiet={mealOnTheDiet} {...rest}>
       <Styled.Hour>{hour}</Styled.Hour>
       <Styled.MealName>{returnsCorrectlyText(mealName)} </Styled.MealName>
       <Circle

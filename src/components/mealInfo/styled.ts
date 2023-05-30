@@ -1,10 +1,11 @@
+import { Pressable } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
 type MealOnTheDiet = {
   mealOnTheDiet: boolean
 }
 
-export const Container = styled.View<MealOnTheDiet>`
+export const Container = styled(Pressable)<MealOnTheDiet>`
   ${({ theme }) => css`
     gap: 12px;
     height: 49px;
