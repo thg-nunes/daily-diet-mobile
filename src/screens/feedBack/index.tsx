@@ -1,5 +1,5 @@
 import { Image } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { Button } from '@components/button'
 import { FeedbackHeader } from '@components/feedbackHeader'
@@ -10,21 +10,23 @@ import GoodFeedbackImage from '@assets/feedback/good.png'
 
 import * as Styled from './styled'
 
-type FeedBackProps = {
+type Params = {
   mealOnDiet: FeedbackType
 }
 
-export const FeedBack = ({ mealOnDiet = 'GOOD' }: FeedBackProps) => {
-  // const { navigate } = useNavigation()
+export const FeedBack = () => {
+  const { params } = useRoute()
+  const { mealOnDiet } = params as Params
+  const { navigate } = useNavigation()
 
   function handleHomeScreen() {
-    // navigate('Home')
+    navigate('Home')
   }
 
   return (
     <Styled.Container>
-      <FeedbackHeader type={mealOnDiet} />
-      {mealOnDiet === 'GOOD' ? (
+      <FeedbackHeader mealOnDiet={mealOnDiet} />
+      {mealOnDiet ? (
         <Image source={GoodFeedbackImage} />
       ) : (
         <Image source={BadFeedbackImage} />
