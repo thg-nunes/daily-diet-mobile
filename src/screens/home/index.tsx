@@ -4,6 +4,7 @@ import { Image, SectionList } from 'react-native'
 import * as Styled from './styled'
 
 import {
+  useHandleMealInfo,
   useMealsOfDietPercent,
   useRenderInitialData
 } from '@hooks/screens/home'
@@ -18,6 +19,7 @@ import { MealInfo } from '@components/mealInfo'
 export const Home = () => {
   const { colors, allMeals, handleNewMeal } = useRenderInitialData()
   const { ...data } = useMealsOfDietPercent(allMeals)
+  const { handleMealInfo } = useHandleMealInfo()
 
   return (
     <Styled.Container>
@@ -46,11 +48,12 @@ export const Home = () => {
         keyExtractor={(item) => item.mealName}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ gap: 8 }}
-        renderItem={({ item }) => (
+        renderItem={({ item, section }) => (
           <MealInfo
             hour={item.hour}
             mealName={item.mealName}
             mealOnTheDiet={item.mealsOnDiet}
+            onPress={() => handleMealInfo({ item, date: section.sectionDate })}
           />
         )}
         renderSectionHeader={({ section: { sectionDate } }) => (

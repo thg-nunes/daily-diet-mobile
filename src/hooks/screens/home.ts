@@ -13,6 +13,34 @@ export type UseMealsOfDietPercentResponse = {
   listOfDishesWithinTheDiet: number[]
 }
 
+type HandleMealInfoParams = {
+  item: {
+    hour: string
+    mealName: string
+    description: string
+    mealsOnDiet: boolean
+  }
+  date: string
+}
+
+const useHandleMealInfo = () => {
+  const { navigate } = useNavigation()
+
+  function handleMealInfo({ item, date }: HandleMealInfoParams): void {
+    navigate('MealsDetails', {
+      mealName: item.mealName,
+      mealOnDiet: item.mealsOnDiet,
+      mealDescription: item.description,
+      dateAndHourDescription: {
+        date,
+        hour: item.hour
+      }
+    })
+  }
+
+  return { handleMealInfo }
+}
+
 const useRenderInitialData = () => {
   const [allMeals, setAllMeals] = useState<SavedMeals | []>([])
   const { colors } = useTheme()
@@ -90,4 +118,4 @@ const useMealsOfDietPercent = (
   }, [allMeals])
 }
 
-export { useRenderInitialData, useMealsOfDietPercent }
+export { useRenderInitialData, useMealsOfDietPercent, useHandleMealInfo }
