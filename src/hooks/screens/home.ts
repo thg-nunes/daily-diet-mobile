@@ -5,6 +5,14 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { SavedMeals } from '@utils/storage/meal/types'
 import { getAllMeals } from '@utils/storage/meal/getAllMeals'
 
+export type UseMealsOfDietPercentResponse = {
+  onDietMeals: number
+  offDietMeals: number
+  _mealsOfDietPercent: number
+  storageMealsQuantity: number
+  listOfDishesWithinTheDiet: number[]
+}
+
 const useRenderInitialData = () => {
   const [allMeals, setAllMeals] = useState<SavedMeals | []>([])
   const { colors } = useTheme()
@@ -32,26 +40,53 @@ const useRenderInitialData = () => {
   }
 }
 
-const useMealsOfDietPercent = (allMeals: SavedMeals | []) => {
+const useMealsOfDietPercent = (
+  allMeals: SavedMeals | []
+): UseMealsOfDietPercentResponse => {
   return useMemo(() => {
     let onDietMeals = 0
+    let offDietMeals = 0
     let storageMealsQuantity = 0
+    let _mealsOfDietPercent = 0
+    const listOfDishesWithinTheDiet: number[] = [0]
 
     if (allMeals.length) {
       allMeals.forEach((storagedMeal) => {
         storageMealsQuantity += storagedMeal.data.length
+        let sequenceOfDishesWithinTheDiet = 0
 
-        storagedMeal.data.forEach((meal) => {
-          if (meal.mealsOnDiet) onDietMeals += 1
+        storagedMeal.data.forEach((meal, i) => {
+          if (meal.mealsOnDiet) {
+            onDietMeals += 1
+          }
+          if (meal.mealsOnDiet && i <= storagedMeal.data.length - 1) {
+            sequenceOfDishesWithinTheDiet += 1
+          } else if (!meal.mealsOnDiet && i < storagedMeal.data.length - 1) {
+            sequenceOfDishesWithinTheDiet = 0
+          }
         })
+        listOfDishesWithinTheDiet.push(sequenceOfDishesWithinTheDiet)
       })
 
-      const _mealsOfDietPercent = (onDietMeals * 1) / storageMealsQuantity
+      offDietMeals = storageMealsQuantity - onDietMeals
+      _mealsOfDietPercent = ((onDietMeals * 1) / storageMealsQuantity) * 100
 
-      return _mealsOfDietPercent * 100
+      return {
+        onDietMeals,
+        offDietMeals,
+        _mealsOfDietPercent,
+        storageMealsQuantity,
+        listOfDishesWithinTheDiet
+      }
     }
 
-    return 0
+    return {
+      onDietMeals,
+      offDietMeals,
+      _mealsOfDietPercent,
+      storageMealsQuantity,
+      listOfDishesWithinTheDiet
+    }
   }, [allMeals])
 }
 
