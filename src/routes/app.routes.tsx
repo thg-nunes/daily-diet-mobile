@@ -4,6 +4,7 @@ import { Home } from '@screens/home'
 import { Create } from '@screens/create'
 import { FeedBack } from '@screens/feedBack'
 import { Statistics } from '@screens/statistics'
+import { MealsDetails, MealsDetailsProps } from '@screens/mealsDetails'
 import { UseMealsOfDietPercentResponse } from '@hooks/screens/home'
 
 export type Routes = {
@@ -12,6 +13,7 @@ export type Routes = {
   FeedBack: {
     mealOnDiet: boolean
   }
+  MealsDetails: MealsDetailsProps
   Statistics: UseMealsOfDietPercentResponse
 }
 
@@ -28,6 +30,7 @@ export function AppRoutes(): JSX.Element {
       <Screen name="New" component={Create} />
       <Screen name="FeedBack" component={FeedBack} />
       <Screen name="Statistics" component={Statistics} />
+      <Screen name="MealsDetails" component={MealsDetails} />
     </Navigator>
   )
 }
