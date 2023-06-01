@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import { useTheme } from 'styled-components/native'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Circle, PencilSimpleLine, Trash } from 'phosphor-react-native'
+
+import { getAllMeals } from '@utils/storage/meal/getAllMeals'
+import { MEAL_STORAGE_KEY } from '@utils/storage/storageConfig'
 
 import { Button } from '@components/button'
 import { GoBackHeader } from '@components/goBackHeader'
@@ -38,6 +42,32 @@ export const MealsDetails = () => {
     navigate('Home')
   }
 
+  async function handleMealDelete(): Promise<void> {
+    const allMeals = await getAllMeals()
+
+    const dataWithRemovedMeal = allMeals.map((meal) => {
+      if (meal.sectionDate === dateAndHourDescription.date) {
+        meal.data = meal.data.filter(
+          (savedMeal) => savedMeal.mealName !== mealName
+        )
+
+        return meal
+      }
+      return meal
+    })
+
+    const mealsWithExistingData = dataWithRemovedMeal.filter(
+      (savedMeals) => savedMeals.data.length > 0
+    )
+
+    await AsyncStorage.setItem(
+      MEAL_STORAGE_KEY,
+      JSON.stringify(mealsWithExistingData, undefined, 2)
+    )
+
+    navigate('Home')
+  }
+
   function handleMealEdite() {
     navigate('EditeMeal', {
       mealName,
@@ -63,7 +93,7 @@ export const MealsDetails = () => {
                 type="SECONDARY"
                 onPress={handleCloseModal}
               />
-              <Button text="Sim, excluir" />
+              <Button text="Sim, excluir" onPress={handleMealDelete} />
             </Styled.ModalButtons>
           </Styled.ModalContent>
         </Styled.ModalBackground>
