@@ -41,5 +41,6 @@ export const MealChangeStateButton = styled.View`
     flex: 1;
     gap: 8px;
     flex-direction: row;
+    margin-bottom: 148px;
   `}
 `
