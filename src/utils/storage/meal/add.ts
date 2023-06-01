@@ -5,7 +5,6 @@ import { AppError } from '@errors/AppError'
 import { Meal } from './types'
 import { getAllMeals } from './getAllMeals'
 import { MEAL_STORAGE_KEY } from '../storageConfig'
-import { addNewSectionInList } from './addNewSectionInList'
 import { getMealByNameAndSectionDate } from './getMealByName'
 import { addNewMealInSectionData } from './addNewMealInSectionData'
 
