@@ -1,21 +1,6 @@
-import { Alert, ScrollView } from 'react-native'
-import { useTheme } from 'styled-components'
-import { useCallback, useState } from 'react'
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute
-} from '@react-navigation/native'
+import { ScrollView } from 'react-native'
 
-import { AppError } from '@errors/AppError'
-
-import { Meal } from '@utils/storage/meal/types'
-import { getAllMeals } from '@utils/storage/meal/getAllMeals'
-import {
-  updateMealData,
-  updateMealSectionDate
-} from '@utils/storage/meal/updateData'
-import { getMealByNameAndSectionDate } from '@utils/storage/meal/getMealByName'
+import { useEditMeal } from '@hooks/screens/editeMeal'
 
 import { Input } from '@components/input'
 import { Clock } from '@components/clock'
@@ -27,115 +12,32 @@ import { OnDietButton } from '@components/onDietButton'
 import * as Styled from './styled'
 
 export const EditeMeal = () => {
-  const { navigate } = useNavigation()
-
-  const { params } = useRoute()
-  const data = params as Meal
-
-  const { colors } = useTheme()
-
-  const [mealName, setMealName] = useState(data.mealName)
-  const [mealDescription, setMealDescription] = useState(data.description)
-  const [selectedDate, setSelectedDate] = useState(data.date)
-  const [selectedHour, setSelectedHour] = useState(data.hour)
-  const [calendarIsOpen, setCalendarIsOpen] = useState(false)
-  const [clockIsOpen, setClockIsOpen] = useState(false)
-
-  const [mealOnDiet, setMealOnDiet] = useState<boolean | undefined>(
-    data.mealIsOnDiet ? true : undefined
-  )
-  const [mealOutDiet, setMealOutDiet] = useState<boolean | undefined>(
-    !data.mealIsOnDiet ? false : undefined
-  )
-
-  function handleHomeScreen() {
-    navigate('Home')
-  }
-
-  async function handleUpdateMealData(): Promise<void> {
-    try {
-      const mealsStorage = await getAllMeals()
-      const mealsWithDistinctSectionDate = mealsStorage.filter(
-        (meal) => meal.sectionDate !== data.date
-      )
-      const mealBySectionDate = await getMealByNameAndSectionDate({
-        mealName: data.mealName,
-        sectionDate: data.date
-      })
-
-      if (mealBySectionDate) {
-        if (selectedDate === mealBySectionDate.sectionDate) {
-          await updateMealData({
-            mealName,
-            mealNameByParam: data.mealName,
-            selectedHour,
-            mealOnDiet: !!mealOnDiet,
-            mealDescription,
-            mealsWithDistinctSectionDate,
-            mealBySectionDate
-          })
-        } else {
-          await updateMealSectionDate({
-            mealName,
-            mealNameByParam: data.mealName,
-            selectedHour,
-            mealOnDiet: !!mealOnDiet,
-            mealDescription,
-            mealsWithDistinctSectionDate,
-            mealBySectionDate,
-            selectedDate
-          })
-        }
-      }
-
-      return Alert.alert(
-        'Deu certo!',
-        'Os dados da refeição foram atualizados!'
-      )
-    } catch (error) {
-      if (error instanceof AppError) {
-        return Alert.alert('Atenção', error.message)
-      }
-
-      return Alert.alert(
-        'Atenção',
-        'Houve um erro ao tentar editar essa refeição.'
-      )
-    }
-  }
-
-  useFocusEffect(
-    useCallback(() => {
-      data.mealIsOnDiet
-        ? setMealOnDiet(data.mealIsOnDiet)
-        : setMealOutDiet(true)
-    }, [data])
-  )
+  const editeMeal = useEditMeal()
 
   return (
     <Styled.Container>
       <GoBackHeader
         headerText="Editar refeição"
         touchableButton={{
-          onPress: handleHomeScreen
+          onPress: editeMeal.handleHomeScreen
         }}
       />
-      {calendarIsOpen && (
+      {editeMeal.calendarIsOpen && (
         <Calendar
-          setCalendarIsOpen={setCalendarIsOpen}
-          setSelectedDate={setSelectedDate}
+          setCalendarIsOpen={editeMeal.setCalendarIsOpen}
+          setSelectedDate={editeMeal.setSelectedDate}
         />
       )}
-      {clockIsOpen && (
+      {editeMeal.clockIsOpen && (
         <Clock
-          setClockIsOpen={setClockIsOpen}
-          setSelectedHour={setSelectedHour}
+          setClockIsOpen={editeMeal.setClockIsOpen}
+          setSelectedHour={editeMeal.setSelectedHour}
         />
       )}
 
       <ScrollView
         style={{
-          backgroundColor: colors.gray[100],
+          backgroundColor: editeMeal.colors.gray[100],
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20
         }}
@@ -146,8 +48,10 @@ export const EditeMeal = () => {
             inputLabel="Nome"
             inputProps={{
               maxLength: 50,
-              onChangeText: setMealName,
-              value: mealName ? mealName : data.mealName
+              onChangeText: editeMeal.setMealName,
+              value: editeMeal.mealName
+                ? editeMeal.mealName
+                : editeMeal.data.mealName
             }}
           />
           <Input
@@ -156,33 +60,43 @@ export const EditeMeal = () => {
             inputProps={{
               multiline: true,
               numberOfLines: 4,
-              onChangeText: setMealDescription,
-              value: mealDescription ? mealDescription : data.description,
+              onChangeText: editeMeal.setMealDescription,
+              value: editeMeal.mealDescription
+                ? editeMeal.mealDescription
+                : editeMeal.data.description,
               textAlignVertical: 'top',
               maxLength: 100
             }}
           />
 
           <Styled.MealDateAndHourInfo>
-            <Styled.PressableContainer onPress={() => setCalendarIsOpen(true)}>
+            <Styled.PressableContainer
+              onPress={() => editeMeal.setCalendarIsOpen(true)}
+            >
               <Input
                 inputLabel="Data"
                 inputProps={{
-                  value: selectedDate ? selectedDate : data.date,
+                  value: editeMeal.selectedDate
+                    ? editeMeal.selectedDate
+                    : editeMeal.data.date,
                   editable: false,
-                  onChangeText: () => setCalendarIsOpen(true),
-                  onFocus: () => setCalendarIsOpen(true)
+                  onChangeText: () => editeMeal.setCalendarIsOpen(true),
+                  onFocus: () => editeMeal.setCalendarIsOpen(true)
                 }}
               />
             </Styled.PressableContainer>
-            <Styled.PressableContainer onPress={() => setClockIsOpen(true)}>
+            <Styled.PressableContainer
+              onPress={() => editeMeal.setClockIsOpen(true)}
+            >
               <Input
                 inputLabel="Hora"
                 inputProps={{
-                  value: selectedHour ? selectedHour : data.hour,
+                  value: editeMeal.selectedHour
+                    ? editeMeal.selectedHour
+                    : editeMeal.data.hour,
                   editable: false,
-                  onChangeText: () => setClockIsOpen(true),
-                  onFocus: () => setClockIsOpen(true)
+                  onChangeText: () => editeMeal.setClockIsOpen(true),
+                  onFocus: () => editeMeal.setClockIsOpen(true)
                 }}
               />
             </Styled.PressableContainer>
@@ -192,24 +106,27 @@ export const EditeMeal = () => {
             <OnDietButton
               text="Sim"
               buttonType="PRIMARY"
-              onDiet={mealOnDiet}
+              onDiet={editeMeal.mealOnDiet}
               onPress={() => {
-                setMealOnDiet(true)
-                setMealOutDiet(undefined)
+                editeMeal.setMealOnDiet(true)
+                editeMeal.setMealOutDiet(undefined)
               }}
             />
             <OnDietButton
               text="Não"
               buttonType="SECONDARY"
-              onDiet={mealOutDiet}
+              onDiet={editeMeal.mealOutDiet}
               onPress={() => {
-                setMealOutDiet(true)
-                setMealOnDiet(undefined)
+                editeMeal.setMealOutDiet(true)
+                editeMeal.setMealOnDiet(undefined)
               }}
             />
           </Styled.MealChangeStateButton>
 
-          <Button text="Salvar alterações" onPress={handleUpdateMealData} />
+          <Button
+            text="Salvar alterações"
+            onPress={editeMeal.handleUpdateMealData}
+          />
         </Styled.Content>
       </ScrollView>
     </Styled.Container>
