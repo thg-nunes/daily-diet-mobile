@@ -13,7 +13,6 @@ export const Container = styled(SafeAreaView)`
 export const Content = styled.View`
   ${({ theme }) => css`
     flex: 1;
-    gap: 24px;
 
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -29,6 +28,19 @@ export const PressableContainer = styled(Pressable)`
   `}
 `
 
+export const OnDietButtonsSection = styled.View`
+  gap: 8px;
+  margin-bottom: 24px;
+`
+
+export const OnDietButtonsSectionHeader = styled.Text`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray[700]};
+    font-size: ${theme.font_size.md}px;
+    font-family: ${theme.font_familly.bold};
+  `}
+`
+
 export const MealDateAndHourInfo = styled.View`
   ${({ theme }) => css`
     gap: 20px;
@@ -41,6 +53,5 @@ export const MealChangeStateButton = styled.View`
     flex: 1;
     gap: 8px;
     flex-direction: row;
-    margin-bottom: 148px;
   `}
 `

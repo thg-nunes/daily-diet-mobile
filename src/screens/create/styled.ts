@@ -40,7 +40,6 @@ export const MealChangeStateButton = styled.View`
 
 export const ButtonContainer = styled.View`
   flex: 1;
-  margin-top: 150px;
 `
 
 export const Scroll = styled.ScrollView`
@@ -54,6 +53,7 @@ export const Scroll = styled.ScrollView`
 
 export const OnDietButtonsSection = styled.View`
   gap: 8px;
+  margin-bottom: 24px;
 `
 
 export const OnDietButtonsSectionHeader = styled.Text`

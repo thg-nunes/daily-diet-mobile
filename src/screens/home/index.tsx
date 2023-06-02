@@ -47,7 +47,7 @@ export const Home = () => {
         sections={allMeals}
         keyExtractor={(item) => item.mealName}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ gap: 8 }}
+        contentContainerStyle={{ gap: 8, paddingBottom: 60 }}
         renderItem={({ item, section }) => (
           <MealInfo
             hour={item.hour}

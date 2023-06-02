@@ -16,8 +16,6 @@ export const Container = styled(SafeAreaView)<ContainerProps>`
 export const Content = styled.View`
   ${({ theme }) => css`
     flex: 1;
-    gap: 24px;
-
     padding: 40px 24px;
 
     border-top-left-radius: 20px;
@@ -73,7 +71,6 @@ export const DateAndHourDescription = styled.Text`
 export const MealInsideDietContainer = styled.View`
   ${({ theme }) => css`
     width: 144px;
-    margin-bottom: 250px;
 
     gap: 8px;
     align-items: center;

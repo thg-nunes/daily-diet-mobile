@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components/native'
 
 export const Container = styled.View`
   ${({ theme }) => css`
-    gap: 85px;
     flex-direction: row;
 
     padding: 0 24px;
@@ -13,6 +12,8 @@ export const Container = styled.View`
 
 export const HeaderText = styled.Text`
   ${({ theme }) => css`
+    flex: 1;
+    text-align: center;
     color: ${theme.colors.gray[800]};
     font-size: ${theme.font_size.xl}px;
     font-family: ${theme.font_familly.bold};

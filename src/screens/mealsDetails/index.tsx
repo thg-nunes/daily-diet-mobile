@@ -6,6 +6,7 @@ import { Button } from '@components/button'
 import { GoBackHeader } from '@components/goBackHeader'
 
 import * as Styled from './styled'
+import { ScrollView, View } from 'react-native'
 
 export type MealsDetailsProps = {
   mealOnDiet: boolean
@@ -33,10 +34,12 @@ export const MealsDetails = () => {
               <Button
                 text="Cancelar"
                 type="SECONDARY"
+                style={{ flex: 1 }}
                 onPress={mealsDetails.handleCloseModal}
               />
               <Button
                 text="Sim, excluir"
+                style={{ flex: 1 }}
                 onPress={mealsDetails.handleMealDelete}
               />
             </Styled.ModalButtons>
@@ -50,36 +53,41 @@ export const MealsDetails = () => {
         }}
       />
       <Styled.Content>
-        <Styled.Meal>
-          <Styled.MealName>{mealsDetails.mealName}</Styled.MealName>
-          <Styled.MealDescription>
-            {mealsDetails.mealDescription}
-          </Styled.MealDescription>
-        </Styled.Meal>
+        <View style={{ flex: 1, gap: 24 }}>
+          <Styled.Meal>
+            <Styled.MealName>{mealsDetails.mealName}</Styled.MealName>
+            <Styled.MealDescription>
+              {mealsDetails.mealDescription}
+            </Styled.MealDescription>
+          </Styled.Meal>
 
-        <Styled.DateAndHourContainer>
-          <Styled.DateAndHourHeader>Data e hora</Styled.DateAndHourHeader>
-          <Styled.DateAndHourDescription>
-            {mealsDetails.dateAndHourDescription.date} às{' '}
-            {mealsDetails.dateAndHourDescription.hour}
-          </Styled.DateAndHourDescription>
-        </Styled.DateAndHourContainer>
-        <Styled.MealInsideDietContainer>
-          <Circle
-            weight="fill"
-            color={
-              mealsDetails.mealOnDiet
-                ? mealsDetails.colors.green[900]
-                : mealsDetails.colors.red[900]
-            }
-            size={8}
-          />
-          <Styled.MealInsideDietText>
-            {mealsDetails.mealOnDiet ? 'dentro da dieta' : 'fora da dieta'}
-          </Styled.MealInsideDietText>
-        </Styled.MealInsideDietContainer>
+          <Styled.DateAndHourContainer>
+            <Styled.DateAndHourHeader>Data e hora</Styled.DateAndHourHeader>
+            <Styled.DateAndHourDescription>
+              {mealsDetails.dateAndHourDescription.date} às{' '}
+              {mealsDetails.dateAndHourDescription.hour}
+            </Styled.DateAndHourDescription>
+          </Styled.DateAndHourContainer>
+          <Styled.MealInsideDietContainer>
+            <Circle
+              weight="fill"
+              color={
+                mealsDetails.mealOnDiet
+                  ? mealsDetails.colors.green[900]
+                  : mealsDetails.colors.red[900]
+              }
+              size={8}
+            />
+            <Styled.MealInsideDietText>
+              {mealsDetails.mealOnDiet ? 'dentro da dieta' : 'fora da dieta'}
+            </Styled.MealInsideDietText>
+          </Styled.MealInsideDietContainer>
+        </View>
 
         <Button
+          style={{
+            marginBottom: 10
+          }}
           text="Editar refeição"
           image={
             <PencilSimpleLine

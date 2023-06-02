@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native'
+import { View } from 'react-native'
 
 import { useEditMeal } from '@hooks/screens/editeMeal'
 
@@ -35,15 +35,13 @@ export const EditeMeal = () => {
         />
       )}
 
-      <ScrollView
-        style={{
-          backgroundColor: editeMeal.colors.gray[100],
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20
-        }}
-        showsVerticalScrollIndicator={false}
-      >
-        <Styled.Content>
+      <Styled.Content>
+        <View
+          style={{
+            gap: 24,
+            flex: 1
+          }}
+        >
           <Input
             inputLabel="Nome"
             inputProps={{
@@ -102,33 +100,38 @@ export const EditeMeal = () => {
             </Styled.PressableContainer>
           </Styled.MealDateAndHourInfo>
 
-          <Styled.MealChangeStateButton>
-            <OnDietButton
-              text="Sim"
-              buttonType="PRIMARY"
-              onDiet={editeMeal.mealOnDiet}
-              onPress={() => {
-                editeMeal.setMealOnDiet(true)
-                editeMeal.setMealOutDiet(undefined)
-              }}
-            />
-            <OnDietButton
-              text="Não"
-              buttonType="SECONDARY"
-              onDiet={editeMeal.mealOutDiet}
-              onPress={() => {
-                editeMeal.setMealOutDiet(true)
-                editeMeal.setMealOnDiet(undefined)
-              }}
-            />
-          </Styled.MealChangeStateButton>
+          <Styled.OnDietButtonsSection>
+            <Styled.OnDietButtonsSectionHeader>
+              Está dentro da dieta?
+            </Styled.OnDietButtonsSectionHeader>
+            <Styled.MealChangeStateButton>
+              <OnDietButton
+                text="Sim"
+                buttonType="PRIMARY"
+                onDiet={editeMeal.mealOnDiet}
+                onPress={() => {
+                  editeMeal.setMealOnDiet(true)
+                  editeMeal.setMealOutDiet(undefined)
+                }}
+              />
+              <OnDietButton
+                text="Não"
+                buttonType="SECONDARY"
+                onDiet={editeMeal.mealOutDiet}
+                onPress={() => {
+                  editeMeal.setMealOutDiet(true)
+                  editeMeal.setMealOnDiet(undefined)
+                }}
+              />
+            </Styled.MealChangeStateButton>
+          </Styled.OnDietButtonsSection>
+        </View>
 
-          <Button
-            text="Salvar alterações"
-            onPress={editeMeal.handleUpdateMealData}
-          />
-        </Styled.Content>
-      </ScrollView>
+        <Button
+          text="Salvar alterações"
+          onPress={editeMeal.handleUpdateMealData}
+        />
+      </Styled.Content>
     </Styled.Container>
   )
 }
