@@ -1,13 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-
 import { AppError } from '@errors/AppError'
 
 import { Meal } from './types'
 import { getAllMeals } from './getAllMeals'
 import { MEAL_STORAGE_KEY } from '../storageConfig'
-import { getMealByNameAndSectionDate } from './getMealByName'
-import { addNewMealInSectionData } from './addNewMealInSectionData'
 import { saveDataInStorage } from '../saveDataInStorage'
+import { getMealByNameAndSectionDate } from './getMealByName'
+import { addNewSectionInStorage } from './addNewSectionInStorage'
 
 const addMealOnList = async (mealData: Meal) => {
   try {
@@ -40,7 +38,7 @@ const addMealOnList = async (mealData: Meal) => {
         })
         allSavedMeals = [...otherMeals, setctionDateAlreadyExists]
       } else {
-        allSavedMeals = addNewMealInSectionData(mealData, allSavedMeals)
+        allSavedMeals = addNewSectionInStorage(mealData, allSavedMeals)
       }
 
       return await saveDataInStorage({
@@ -49,7 +47,7 @@ const addMealOnList = async (mealData: Meal) => {
       })
     }
 
-    const firstMealRegister = addNewMealInSectionData(mealData, [])
+    const firstMealRegister = addNewSectionInStorage(mealData, [])
 
     return await saveDataInStorage({
       key: MEAL_STORAGE_KEY,

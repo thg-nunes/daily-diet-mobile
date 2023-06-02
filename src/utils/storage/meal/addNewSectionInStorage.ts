@@ -1,6 +1,6 @@
 import { Meal, SavedMeals } from './types'
 
-export const addNewMealInSectionData = (
+export const addNewSectionInStorage = (
   mealData: Meal,
   savedMeals: SavedMeals
 ) => {
