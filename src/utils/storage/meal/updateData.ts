@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MealToStorage } from './types'
 import { MEAL_STORAGE_KEY } from '../storageConfig'
 import { addMealOnList } from './add'
+import { saveDataInStorage } from '../saveDataInStorage'
 
 type UpdateMealDataParams = {
   mealName: string
@@ -39,10 +40,10 @@ const updateMealData = async ({
     return meal
   })
 
-  return await AsyncStorage.setItem(
-    MEAL_STORAGE_KEY,
-    JSON.stringify([...mealsWithDistinctSectionDate, mealBySectionDate])
-  )
+  await saveDataInStorage({
+    key: MEAL_STORAGE_KEY,
+    dataToSave: [...mealsWithDistinctSectionDate, mealBySectionDate]
+  })
 }
 
 const updateMealSectionDate = async ({
@@ -60,10 +61,10 @@ const updateMealSectionDate = async ({
   )
 
   if (mealBySectionDate.data.length > 0) {
-    await AsyncStorage.setItem(
-      MEAL_STORAGE_KEY,
-      JSON.stringify([...mealsWithDistinctSectionDate, mealBySectionDate])
-    )
+    await saveDataInStorage({
+      key: MEAL_STORAGE_KEY,
+      dataToSave: [...mealsWithDistinctSectionDate, mealBySectionDate]
+    })
 
     await addMealOnList({
       date: selectedDate,
@@ -73,10 +74,10 @@ const updateMealSectionDate = async ({
       description: mealDescription
     })
   } else {
-    await AsyncStorage.setItem(
-      MEAL_STORAGE_KEY,
-      JSON.stringify([...mealsWithDistinctSectionDate])
-    )
+    await saveDataInStorage({
+      key: MEAL_STORAGE_KEY,
+      dataToSave: [...mealsWithDistinctSectionDate]
+    })
 
     await addMealOnList({
       date: selectedDate,

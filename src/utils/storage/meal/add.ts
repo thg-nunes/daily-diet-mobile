@@ -7,6 +7,7 @@ import { getAllMeals } from './getAllMeals'
 import { MEAL_STORAGE_KEY } from '../storageConfig'
 import { getMealByNameAndSectionDate } from './getMealByName'
 import { addNewMealInSectionData } from './addNewMealInSectionData'
+import { saveDataInStorage } from '../saveDataInStorage'
 
 const addMealOnList = async (mealData: Meal) => {
   try {
@@ -42,28 +43,18 @@ const addMealOnList = async (mealData: Meal) => {
         allSavedMeals = addNewMealInSectionData(mealData, allSavedMeals)
       }
 
-      const dataToStorage = JSON.stringify(allSavedMeals)
-
-      return await AsyncStorage.setItem(MEAL_STORAGE_KEY, dataToStorage)
+      return await saveDataInStorage({
+        key: MEAL_STORAGE_KEY,
+        dataToSave: allSavedMeals
+      })
     }
 
-    const firstMealRegister = [
-      {
-        sectionDate: mealData.date,
-        data: [
-          {
-            hour: mealData.hour,
-            mealName: mealData.mealName,
-            description: mealData.description,
-            mealsOnDiet: mealData.mealIsOnDiet
-          }
-        ]
-      }
-    ]
+    const firstMealRegister = addNewMealInSectionData(mealData, [])
 
-    const dataToStorage = JSON.stringify(firstMealRegister)
-
-    return await AsyncStorage.setItem(MEAL_STORAGE_KEY, dataToStorage)
+    return await saveDataInStorage({
+      key: MEAL_STORAGE_KEY,
+      dataToSave: firstMealRegister
+    })
   } catch (error) {
     throw error
   }

@@ -7,6 +7,7 @@ import { MealsDetailsProps } from '@screens/mealsDetails'
 
 import { getAllMeals } from '@utils/storage/meal/getAllMeals'
 import { MEAL_STORAGE_KEY } from '@utils/storage/storageConfig'
+import { saveDataInStorage } from '@utils/storage/saveDataInStorage'
 
 const useMealsDetails = () => {
   const { colors } = useTheme()
@@ -46,10 +47,10 @@ const useMealsDetails = () => {
       (savedMeals) => savedMeals.data.length > 0
     )
 
-    await AsyncStorage.setItem(
-      MEAL_STORAGE_KEY,
-      JSON.stringify(mealsWithExistingData, undefined, 2)
-    )
+    await saveDataInStorage({
+      key: MEAL_STORAGE_KEY,
+      dataToSave: mealsWithExistingData
+    })
 
     navigate('Home')
   }
