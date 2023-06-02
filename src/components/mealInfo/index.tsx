@@ -18,18 +18,10 @@ export const MealInfo = ({
 }: MealInfoProps) => {
   const { colors } = useTheme()
 
-  function returnsCorrectlyText(text: string): string {
-    if (text.length >= 20) {
-      return `${text.slice(0, 21)}...`
-    }
-
-    return text
-  }
-
   return (
     <Styled.Container mealOnTheDiet={mealOnTheDiet} {...rest}>
       <Styled.Hour>{hour}</Styled.Hour>
-      <Styled.MealName>{returnsCorrectlyText(mealName)} </Styled.MealName>
+      <Styled.MealName numberOfLines={1}>{mealName}</Styled.MealName>
       <Circle
         size={14}
         weight="fill"

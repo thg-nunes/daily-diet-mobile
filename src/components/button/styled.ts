@@ -9,7 +9,6 @@ type ContainerProps = {
 
 export const Container = styled(TouchableOpacity)<ContainerProps>`
   ${({ theme, type }) => css`
-    flex: 1;
     gap: 12px;
     height: 50px;
     max-height: 50px;
